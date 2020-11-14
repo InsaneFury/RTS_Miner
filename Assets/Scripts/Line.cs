@@ -20,15 +20,7 @@ public struct Line
         float dx = pointOnLine.x - pointPerpendicularToLine.x;
         float dy = pointOnLine.y - pointPerpendicularToLine.y;
 
-        if (dy == 0)
-        {
-            gradient = verticalLineGradient;
-        }
-        else
-        {
-            gradient = -dx / dy;
-        }
-
+        gradient = dy == 0 ? verticalLineGradient : -dx / dy;
 
         y_intercept = pointOnLine.y - gradient * pointOnLine.x;
         pointOnLine_1 = pointOnLine;
@@ -41,6 +33,14 @@ public struct Line
     bool GetSide(Vector2 p)
     {
         return (p.x - pointOnLine_1.x) * (pointOnLine_2.y - pointOnLine_1.y) > (p.y - pointOnLine_1.y) * (pointOnLine_2.x - pointOnLine_1.x);
+    }
+
+    public float DistanceFromPoint(Vector2 p)
+    {
+        float yInterceptPerpendicular = p.y - gradient * p.x;
+        float intersectX = (yInterceptPerpendicular - y_intercept) / gradient;
+        float intersectY = gradient * intersectX + y_intercept;
+        return Vector2.Distance(p, new Vector2(intersectX, intersectY));
     }
 
     public bool HasCrossedLine(Vector2 p)
