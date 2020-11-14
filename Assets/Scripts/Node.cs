@@ -9,7 +9,7 @@ public class Node : IHeapItem<Node>
     public Vector3 worldPosition;
     public int gridX;
     public int gridY;
-    public int movementPentalty;
+    public int movementPenalty;
 
     public int gCost;
     public int hCost;
@@ -21,7 +21,7 @@ public class Node : IHeapItem<Node>
         worldPosition = _worldPos;
         gridX = _gridX;
         gridY = _gridY;
-        movementPentalty = _penalty;
+        movementPenalty = _penalty;
     }
 
     public int FCost => gCost + hCost;
