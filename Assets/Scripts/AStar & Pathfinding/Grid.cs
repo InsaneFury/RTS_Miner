@@ -5,10 +5,6 @@ using UnityEngine;
 
 public class Grid : MonoBehaviour
 {
-
-
-    public Transform player;
-
     [Header("Grid Settings")]
     public bool displayGridGizmos = false;
     public LayerMask unwalkableMask;
@@ -181,7 +177,6 @@ public class Grid : MonoBehaviour
 
         if (grid != null && displayGridGizmos)
         {
-            Node playerNode = NodeFromWorldPoint(player.position);
             foreach (Node n in grid)
             {
                 Gizmos.color = Color.Lerp(Color.white, Color.black, Mathf.InverseLerp(penaltyMin, penaltyMax, n.movementPenalty));
