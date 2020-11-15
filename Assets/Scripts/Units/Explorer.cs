@@ -9,18 +9,10 @@ public class Explorer : MonoBehaviour
     public Vector3 maxPosition;
     public float timeToReachNewTarget = 2f;
 
+    private FieldOfView fow;
     private Vector3 randomPositionToExplore;
     private bool isExploring = false;
     private Unit unit;
-
-    // Align to ground normal
-    [Header("Ground Settings")]
-    public Transform raycastPoint;
-
-    private RaycastHit hit;
-    private float hoverHeight = 1.0f;
-    private float terrainHeight;
-    private Vector3 pos;
 
     enum ExplorerState
     {
@@ -31,12 +23,17 @@ public class Explorer : MonoBehaviour
     ExplorerState state;
     Action OnExplorerFoundMine;
 
+    private void Awake()
+    {
+        fow = GetComponent<FieldOfView>();
+        unit = GetComponent<Unit>();
+    }
+
     void Start()
     {
-        unit = GetComponent<Unit>();
         unit.OnTargetReached += ResetTarget;
         randomPositionToExplore = new Vector3();
-        state = ExplorerState.Patrol;
+        state = ExplorerState.Idle;
     }
 
     private void OnDestroy()
@@ -49,6 +46,7 @@ public class Explorer : MonoBehaviour
         {
             case ExplorerState.Idle:
                 // At instantiate the explorer needs to turn on the engine and prepare the vehicle correctly
+                StartCoroutine(GoToPatrol());
                 break;
             case ExplorerState.Patrol:
                 // Explorer is exploring the map to find a mine
@@ -57,15 +55,40 @@ public class Explorer : MonoBehaviour
                     StartCoroutine("ReachNewTarget");
                     isExploring = true;
                 }
+                // Explorer has found a mine to mark
+                FindMine();
                 break;
             case ExplorerState.Marking:
-                // Explorer has found a mine to mark
                 // Explorer launch an event mine is ready to mine
                 // Unit Manager listen the event and assign the first ready worker from queue of workers
+                OnExplorerFoundMine?.Invoke();
+                SetState(ExplorerState.Patrol);
                 break;
             default:
                 break;
         }
+    }
+
+    IEnumerator GoToPatrol()
+    {
+        yield return new WaitForSeconds(3.0f);
+        SetState(ExplorerState.Patrol);
+    }
+
+    void FindMine()
+    {
+        if (fow.visibleTargets.Count <= 0) return;
+        foreach (Transform visibleTarget in fow.visibleTargets)
+        {
+            // Mark Mine
+            Debug.Log(visibleTarget.gameObject.name);
+        }
+        SetState(ExplorerState.Marking);
+    }
+
+    void SetState(ExplorerState newState)
+    {
+        state = newState;
     }
 
     IEnumerator ReachNewTarget()
@@ -79,21 +102,6 @@ public class Explorer : MonoBehaviour
     {
         Debug.Log("Target Success");
         isExploring = false;
-    }
-
-    void AlignWithGroundNormal()
-    {
-        // Keep at specific height above terrain
-        pos = transform.position;
-        float terrainHeight = Terrain.activeTerrain.SampleHeight(pos);
-        transform.position = new Vector3(pos.x,
-                                         terrainHeight + hoverHeight,
-                                         pos.z);
-
-        // Rotate to align with terrain
-        Physics.Raycast(raycastPoint.position, Vector3.down, out hit);
-        transform.up -= (transform.up - hit.normal) * 0.1f;
-
     }
 
     Vector3 GetRandomPositionToExplore()
