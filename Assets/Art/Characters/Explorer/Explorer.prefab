@@ -751,7 +751,7 @@ GameObject:
   - component: {fileID: 1308858746850805863}
   m_Layer: 0
   m_Name: Explorer
-  m_TagString: Untagged
+  m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -831,8 +831,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5699371942e2364889ff1239caf8b6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewRadius: 19.38
-  viewAngle: 50
+  viewRadius: 14
+  viewAngle: 45
   targetMask:
     serializedVersion: 2
     m_Bits: 2048
@@ -841,6 +841,8 @@ MonoBehaviour:
     m_Bits: 256
   visibleTargets: []
   meshResolution: 1
+  edgeResolveIterations: 4
+  edgeDistanceThreshold: 0.5
   viewMeshFilter: {fileID: 8527589702263800525}
 --- !u!1 &6613229854946887557
 GameObject:
