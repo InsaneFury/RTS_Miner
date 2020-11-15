@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 public class Explorer : MonoBehaviour
 {
+    [Header("Explorer Settings")]
     public Vector3 minPosition;
     public Vector3 maxPosition;
     public float timeToReachNewTarget = 2f;
@@ -12,12 +13,20 @@ public class Explorer : MonoBehaviour
     private Unit unit;
 
     // Align to ground normal
-    private RaycastHit hit;
+    [Header("Ground Settings")]
     public Transform raycastPoint;
+    private RaycastHit hit;
     private float hoverHeight = 1.0f;
     private float terrainHeight;
     private Vector3 pos;
 
+    enum ExplorerState
+    {
+        Idle,
+        Patrol,
+        Marking
+    }
+    ExplorerState state;
     Action OnExplorerFoundMine;
 
     void Start()
@@ -25,6 +34,7 @@ public class Explorer : MonoBehaviour
         unit = GetComponent<Unit>();
         unit.OnTargetReached += ResetTarget;
         randomPositionToExplore = new Vector3();
+        state = ExplorerState.Patrol;
     }
 
     private void OnDestroy()
@@ -33,13 +43,27 @@ public class Explorer : MonoBehaviour
     }
     void Update()
     {
-        //AlignWithGroundNormal();
-        if (!isExploring)
+        switch (state)
         {
-            StartCoroutine("ReachNewTarget");
-            isExploring = true;
+            case ExplorerState.Idle:
+                // At instantiate the explorer needs to turn on the engine and prepare the vehicle correctly
+                break;
+            case ExplorerState.Patrol:
+                // Explorer is exploring the map to find a mine
+                if (!isExploring)
+                {
+                    StartCoroutine("ReachNewTarget");
+                    isExploring = true;
+                }
+                break;
+            case ExplorerState.Marking:
+                // Explorer has found a mine to mark
+                // Explorer launch an event mine is ready to mine
+                // Unit Manager listen the event and assign the first ready worker from queue of workers
+                break;
+            default:
+                break;
         }
-        
     }
 
     IEnumerator ReachNewTarget()
