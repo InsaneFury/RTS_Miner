@@ -8,6 +8,7 @@ public class Explorer : MonoBehaviour
     public Vector3 minPosition;
     public Vector3 maxPosition;
     public float timeToReachNewTarget = 2f;
+
     private Vector3 randomPositionToExplore;
     private bool isExploring = false;
     private Unit unit;
@@ -15,6 +16,7 @@ public class Explorer : MonoBehaviour
     // Align to ground normal
     [Header("Ground Settings")]
     public Transform raycastPoint;
+
     private RaycastHit hit;
     private float hoverHeight = 1.0f;
     private float terrainHeight;
