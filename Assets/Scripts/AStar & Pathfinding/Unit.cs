@@ -9,6 +9,11 @@ public class Unit : MonoBehaviour
     const float pathUpdateMoveThreshold = .5f;
 
     private Vector3 target;
+
+    [Header("On Select")]
+    public GameObject particleVFX;
+
+    [Header("Unit Settings")]
     public float speed = 20.0f;
     public float turnDistance = 5.0f;
     public float turnSpeed = 3.0f;
@@ -119,5 +124,16 @@ public class Unit : MonoBehaviour
         {
             path.DrawWithGizmos();
         }
+    }
+
+    public void OnSelect()
+    {
+        if(particleVFX)
+            particleVFX.SetActive(true);
+    }
+    public void OnDeselect()
+    {
+        if (particleVFX)
+            particleVFX.SetActive(false);
     }
 }

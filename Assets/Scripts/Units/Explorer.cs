@@ -9,6 +9,7 @@ public class Explorer : MonoBehaviour
     public Vector3 maxPosition;
     public float timeToReachNewTarget = 2f;
 
+    
     private FieldOfView fow;
     private Vector3 randomPositionToExplore;
     private bool isExploring = false;
@@ -100,7 +101,6 @@ public class Explorer : MonoBehaviour
 
     public void ResetTarget()
     {
-        Debug.Log("Target Success");
         isExploring = false;
     }
 
@@ -110,4 +110,6 @@ public class Explorer : MonoBehaviour
             UnityEngine.Random.Range(minPosition.x, maxPosition.x), 0f, 
             UnityEngine.Random.Range(minPosition.z, maxPosition.z));
     }
+
+
 }

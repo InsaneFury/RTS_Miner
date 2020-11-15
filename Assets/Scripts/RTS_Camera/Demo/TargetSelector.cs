@@ -9,6 +9,8 @@ public class TargetSelector : MonoBehaviour
     private new Camera camera;
     public string targetsTag;
 
+    private Unit lastTarget;
+
     private void Start()
     {
         cam = gameObject.GetComponent<RTS_Camera>();
@@ -24,9 +26,22 @@ public class TargetSelector : MonoBehaviour
             if(Physics.Raycast(ray, out hit))
             {
                 if (hit.transform.CompareTag(targetsTag))
+                {
                     cam.SetTarget(hit.transform);
+                    lastTarget = hit.transform.GetComponent<Unit>();
+                    if (lastTarget)
+                        lastTarget.OnSelect();
+                }
                 else
+                {
+                    if (lastTarget)
+                    {
+                        lastTarget.OnDeselect();
+                    }
+                        
                     cam.ResetTarget();
+                }
+                    
             }
         }
     }
