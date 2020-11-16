@@ -82,7 +82,13 @@ public class Explorer : MonoBehaviour
         foreach (Transform visibleTarget in fow.visibleTargets)
         {
             // Mark Mine
-            Debug.Log(visibleTarget.gameObject.name);
+            Mine mine = visibleTarget.GetComponent<Mine>();
+            if (!mine.GetMark())
+            {
+                mine.SetMark(true);
+                Debug.Log($"{visibleTarget.gameObject.name} was marked!");
+            }
+            
         }
         SetState(ExplorerState.Marking);
     }
