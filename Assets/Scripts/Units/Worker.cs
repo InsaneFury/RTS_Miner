@@ -56,13 +56,12 @@ public class Worker : MonoBehaviour
                 break;
             case WorkerState.Mining:
 
-                if (workingMine)
+                if (workingMine && !isBusy)
                 {
                     Debug.Log($"Going to {workingMine.name} with pos {workingMine.gameObject.transform.position}");
-                    
+                    Debug.Log("MINING");
+                    isBusy = true;
                 }
-
-                Debug.Log("MINING");
                 break;
             case WorkerState.Returning:
                 break;
@@ -90,17 +89,12 @@ public class Worker : MonoBehaviour
     }
 
     IEnumerator ReachNewTarget()
-    {
+    {     
         yield return new WaitForSeconds(timeToReachNewTarget);
         if (!isBusy)
         {
             randomPositionToExplore = GetRandomPositionToExplore();
             unit.GoTo(randomPositionToExplore);
-        }
-        else
-        {
-            Vector3 toGo = new Vector3(workingMine.transform.position.x, transform.position.y, workingMine.transform.position.z);
-            unit.GoTo(toGo);
         }
     }
 
@@ -114,10 +108,9 @@ public class Worker : MonoBehaviour
 
     public void GoToMine(GameObject mine)
     {
-        unit.GoTo(mine.transform.position);
-        isBusy = true;
         workingMine = mine;
+        Vector3 toGo = new Vector3(workingMine.transform.position.x, transform.position.y, workingMine.transform.position.z);
+        unit.GoTo(toGo);
         SetState(WorkerState.Mining);
-        
     }
 }

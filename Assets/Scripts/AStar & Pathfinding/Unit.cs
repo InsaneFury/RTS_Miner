@@ -23,11 +23,6 @@ public class Unit : MonoBehaviour
 
     Path path;
 
-    private void Start()
-    {
-       // StartCoroutine(UpdatePath());
-    }
-
     public void GoTo(Vector3 _target)
     {
         target = _target;
@@ -42,6 +37,10 @@ public class Unit : MonoBehaviour
             path = new Path(waypoints,transform.position,turnDistance,stoppingDistance);
             StopCoroutine("FollowPath");
             StartCoroutine("FollowPath");
+        }
+        else
+        {
+            OnTargetReached?.Invoke();
         }
     }
 

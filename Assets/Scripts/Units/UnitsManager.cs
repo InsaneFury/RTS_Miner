@@ -8,8 +8,8 @@ public class UnitsManager : Singleton<UnitsManager>
     [Header("Units")]
     public GameObject worker;
     public GameObject explorer;
-    public List<GameObject> workersReadyToWork;
-    public List<GameObject> minesMarked;
+    public Queue<GameObject> workersReadyToWork;
+    public Queue<GameObject> minesMarked;
 
     [Space]
     [Header("Spawn Spots")]
@@ -19,45 +19,39 @@ public class UnitsManager : Singleton<UnitsManager>
     public override void Awake()
     {
         base.Awake();
-        workersReadyToWork = new List<GameObject>();
-        minesMarked = new List<GameObject>();
+        workersReadyToWork = new Queue<GameObject>();
+        minesMarked = new Queue<GameObject>();
     }
 
     public void AddReadyWorker(GameObject worker)
     {
-        Debug.Log("Added worker " + worker.name);
+        
         if(minesMarked.Count <= 0)
-        workersReadyToWork.Add(worker);
+        {
+            Debug.Log("Added worker to Queue" + worker.name);
+            workersReadyToWork.Enqueue(worker);
+        }
         else
         {
-            foreach(GameObject mine in minesMarked)
+            Mine mine = minesMarked.Dequeue().GetComponent<Mine>();
+            if (mine.isMarked)
             {
-                if (mine.GetComponent<Mine>().isMarked)
-                {
-                    worker.GetComponent<Worker>().GoToMine(mine);
-                    break;
-                }
+                worker.GetComponent<Worker>().GoToMine(mine.gameObject);
             }
-        }
-        
+        } 
     }
 
     public void AddMarkedMine(GameObject mine)
     {
-        Debug.Log("Added mine " + mine.name);
-        minesMarked.Add(mine);
-        if (mine.GetComponent<Mine>().isMarked)
+        if (workersReadyToWork.Count <= 0)
         {
-            foreach (GameObject worker in workersReadyToWork)
-            {
-                if (!worker.GetComponent<Worker>().IsBusy())
-                {
-
-                    worker.GetComponent<Worker>().GoToMine(mine);
-                    break;
-
-                }
-            }
+            minesMarked.Enqueue(mine);
+            Debug.Log("Added mine to Queue" + mine.name);
+        }
+        else
+        {
+            Worker worker = workersReadyToWork.Dequeue().GetComponent<Worker>();
+            worker.GoToMine(mine);
         }
 
     }
