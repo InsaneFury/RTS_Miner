@@ -25,12 +25,14 @@ public class Unit : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(UpdatePath());
+       // StartCoroutine(UpdatePath());
     }
 
-    public void CheckPathTo(Vector3 _target)
+    public void GoTo(Vector3 _target)
     {
         target = _target;
+        StopCoroutine(UpdatePath());
+        StartCoroutine(UpdatePath());
     }
 
     public void OnPathFound(Vector3[] waypoints, bool pathSuccessful)
@@ -40,10 +42,6 @@ public class Unit : MonoBehaviour
             path = new Path(waypoints,transform.position,turnDistance,stoppingDistance);
             StopCoroutine("FollowPath");
             StartCoroutine("FollowPath");
-        }
-        else
-        {
-            OnTargetReached?.Invoke();
         }
     }
 

@@ -21,6 +21,7 @@ public class Mine : MonoBehaviour
     {
         isMarked = state;
         flag.SetActive(state);
+        UnitsManager.Get().AddMarkedMine(gameObject);
     }
 
     public bool GetMark() => isMarked ? true : false;

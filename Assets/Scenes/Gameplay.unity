@@ -803,8 +803,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81948fce707a09c478f8342d22b5920f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPersistant: 0
   worker: {fileID: 3758668971686537668, guid: b0abffe3ee53ab446848e0a08de1fe14, type: 3}
   explorer: {fileID: 1308858746869817171, guid: e3302c8718654d34bb4b498a1d45a798, type: 3}
+  workersReadyToWork: []
+  minesMarked: []
   workerBaseSpawnSpot: {fileID: 936233706}
   explorerBaseSpawnSpot: {fileID: 607214463}
 --- !u!4 &358029367
@@ -1262,7 +1265,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &607214463 stripped
 Transform:
@@ -2193,7 +2196,7 @@ MonoBehaviour:
   displayGridGizmos: 0
   unwalkableMask:
     serializedVersion: 2
-    m_Bits: 2304
+    m_Bits: 256
   gridWorldSize: {x: 100, y: 100}
   nodeRadius: 0.5
   walkableRegions:
@@ -2205,7 +2208,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 1024
     terrainPenalty: 3
-  obstacleProximityPenalty: 50
+  obstacleProximityPenalty: 100
 --- !u!114 &781553437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4092,7 +4095,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3758668971686537666, guid: b0abffe3ee53ab446848e0a08de1fe14, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3758668971686537666, guid: b0abffe3ee53ab446848e0a08de1fe14, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4109,6 +4112,22 @@ PrefabInstance:
     - target: {fileID: 3758668971686537668, guid: b0abffe3ee53ab446848e0a08de1fe14, type: 3}
       propertyPath: m_Name
       value: Worker
+      objectReference: {fileID: 0}
+    - target: {fileID: 4040377686311953847, guid: b0abffe3ee53ab446848e0a08de1fe14, type: 3}
+      propertyPath: minPosition.x
+      value: -46
+      objectReference: {fileID: 0}
+    - target: {fileID: 4040377686311953847, guid: b0abffe3ee53ab446848e0a08de1fe14, type: 3}
+      propertyPath: minPosition.z
+      value: -46
+      objectReference: {fileID: 0}
+    - target: {fileID: 4040377686311953847, guid: b0abffe3ee53ab446848e0a08de1fe14, type: 3}
+      propertyPath: maxPosition.z
+      value: 46
+      objectReference: {fileID: 0}
+    - target: {fileID: 4040377686311953847, guid: b0abffe3ee53ab446848e0a08de1fe14, type: 3}
+      propertyPath: maxPosition.x
+      value: 46
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b0abffe3ee53ab446848e0a08de1fe14, type: 3}

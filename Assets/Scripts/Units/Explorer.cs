@@ -33,7 +33,7 @@ public class Explorer : MonoBehaviour
     void Start()
     {
         unit.OnTargetReached += ResetTarget;
-        randomPositionToExplore = new Vector3();
+        randomPositionToExplore = transform.position;
         state = ExplorerState.Idle;
     }
 
@@ -88,8 +88,8 @@ public class Explorer : MonoBehaviour
                 mine.SetMark(true);
                 Debug.Log($"{visibleTarget.gameObject.name} was marked!");
             }
-            
         }
+        fow.visibleTargets.Clear();
         SetState(ExplorerState.Marking);
     }
 
@@ -102,7 +102,7 @@ public class Explorer : MonoBehaviour
     {
         yield return new WaitForSeconds(timeToReachNewTarget);
         randomPositionToExplore = GetRandomPositionToExplore();
-        unit.CheckPathTo(randomPositionToExplore);
+        unit.GoTo(randomPositionToExplore);
     }
 
     public void ResetTarget()
