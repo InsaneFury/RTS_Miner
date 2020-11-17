@@ -93,6 +93,8 @@ GameObject:
   - component: {fileID: 3758668971686537667}
   - component: {fileID: 6911184578090933111}
   - component: {fileID: 4040377686311953847}
+  - component: {fileID: 928171124}
+  - component: {fileID: 928171125}
   m_Layer: 0
   m_Name: Worker
   m_TagString: Unit
@@ -171,9 +173,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a7e75ebf210826478fcbd2e2348e73f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minPosition: {x: 0, y: 0, z: 0}
-  maxPosition: {x: 0, y: 0, z: 0}
+  minPosition: {x: -46, y: 0, z: -46}
+  maxPosition: {x: 46, y: 0, z: 46}
   timeToReachNewTarget: 2
+  goldExtractPerSecond: 5
+  workingMine: {fileID: 0}
+  timeToExtractGold: 1
+  goldLimit: 50
+  unitGold: 0
+--- !u!54 &928171124
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3758668971686537668}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &928171125
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3758668971686537668}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.2989357, y: 1.6503887, z: 3.8578758}
+  m_Center: {x: 0, y: 0.32519436, z: 8.775939e-17}
 --- !u!1 &3759085129442440672
 GameObject:
   m_ObjectHideFlags: 0

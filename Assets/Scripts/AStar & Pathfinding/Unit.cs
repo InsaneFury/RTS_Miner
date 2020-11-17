@@ -22,12 +22,13 @@ public class Unit : MonoBehaviour
     public event Action OnTargetReached; 
 
     Path path;
-
+    private void Start()
+    {
+        StartCoroutine(UpdatePath());
+    }
     public void GoTo(Vector3 _target)
     {
         target = _target;
-        StopCoroutine(UpdatePath());
-        StartCoroutine(UpdatePath());
     }
 
     public void OnPathFound(Vector3[] waypoints, bool pathSuccessful)

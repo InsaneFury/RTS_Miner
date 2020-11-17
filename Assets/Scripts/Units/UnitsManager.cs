@@ -11,10 +11,15 @@ public class UnitsManager : Singleton<UnitsManager>
     public Queue<GameObject> workersReadyToWork;
     public Queue<GameObject> minesMarked;
 
+    public int workerCost = 250;
+    public int explorerCost = 500;
+
     [Space]
     [Header("Spawn Spots")]
     public Transform workerBaseSpawnSpot;
     public Transform explorerBaseSpawnSpot;
+
+    private WorkersBase workersBase;
 
     public override void Awake()
     {
@@ -22,7 +27,10 @@ public class UnitsManager : Singleton<UnitsManager>
         workersReadyToWork = new Queue<GameObject>();
         minesMarked = new Queue<GameObject>();
     }
-
+    private void Start()
+    {
+        workersBase = WorkersBase.Get();
+    }
     public void AddReadyWorker(GameObject worker)
     {
         
@@ -58,11 +66,21 @@ public class UnitsManager : Singleton<UnitsManager>
 
     public void SpawnWorker()
     {
-        Instantiate(worker, workerBaseSpawnSpot.position, workerBaseSpawnSpot.rotation);
+        if(workersBase.goldInVault >= workerCost)
+        {
+            workersBase.Buy(workerCost);
+            Instantiate(worker, workerBaseSpawnSpot.position, workerBaseSpawnSpot.rotation);
+            UIManager.Get().UpdateGoldUI();
+        }
     }
     public void SpawnExplorer()
     {
-        Instantiate(explorer, explorerBaseSpawnSpot.position, explorerBaseSpawnSpot.rotation);
+        if (workersBase.goldInVault >= explorerCost)
+        {
+            workersBase.Buy(explorerCost);
+            Instantiate(explorer, explorerBaseSpawnSpot.position, explorerBaseSpawnSpot.rotation);
+            UIManager.Get().UpdateGoldUI();
+        }   
     }
 
 
